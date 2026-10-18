@@ -1,0 +1,491 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1920, height=1080" />
+    <script src="assets/gsap.min.js"></script>
+    <style>
+      @font-face { font-family: "Instrument Serif"; src: url("assets/fonts/instrument-serif-latin-400-normal.woff2") format("woff2"); font-weight: 400; font-style: normal; }
+      @font-face { font-family: "Instrument Serif"; src: url("assets/fonts/instrument-serif-latin-400-italic.woff2") format("woff2"); font-weight: 400; font-style: italic; }
+      @font-face { font-family: "Bricolage Grotesque"; src: url("assets/fonts/bricolage-grotesque-latin-400-normal.woff2") format("woff2"); font-weight: 400; }
+      @font-face { font-family: "Bricolage Grotesque"; src: url("assets/fonts/bricolage-grotesque-latin-700-normal.woff2") format("woff2"); font-weight: 700; }
+      @font-face { font-family: "Bricolage Grotesque"; src: url("assets/fonts/bricolage-grotesque-latin-800-normal.woff2") format("woff2"); font-weight: 800; }
+
+      :root {
+        --cream: #ede9e1;
+        --ink: #131313;
+        --orange: #fe4d1c;
+        --serif: "Instrument Serif", serif;
+        --sans: "Bricolage Grotesque", sans-serif;
+      }
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { width: 1920px; height: 1080px; overflow: hidden; background: var(--ink); }
+      #root { position: relative; width: 100%; height: 100%; overflow: hidden; font-family: var(--serif); }
+
+      /* ---- scènes ---- */
+      .scene { position: absolute; inset: 0; overflow: hidden; }
+      .panel { position: absolute; }
+      .panel.r { left: -360px; top: 0; width: 2280px; height: 1080px;
+        -webkit-mask-image: linear-gradient(to right, transparent 0, #000 360px); mask-image: linear-gradient(to right, transparent 0, #000 360px); }
+      .panel.u { left: 0; top: -360px; width: 1920px; height: 1440px;
+        -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 360px); mask-image: linear-gradient(to bottom, transparent 0, #000 360px); }
+      .panel.d { left: 0; top: 0; width: 1920px; height: 1440px;
+        -webkit-mask-image: linear-gradient(to top, transparent 0, #000 360px); mask-image: linear-gradient(to top, transparent 0, #000 360px); }
+      .panel.first { left: 0; top: 0; width: 1920px; height: 1080px; -webkit-mask-image: none; mask-image: none; }
+      .bg-cream { background: var(--cream); color: var(--ink); }
+      .bg-ink { background: var(--ink); color: var(--cream); }
+      .bg-orange { background: var(--orange); color: var(--ink); }
+      .scene:has(> .panel.bg-cream) { color: var(--ink); }
+      .scene:has(> .panel.bg-ink) { color: var(--cream); }
+      .scene:has(> .panel.bg-orange) { color: var(--ink); }
+      .stage { position: absolute; inset: 0; }
+      .copy { position: absolute; inset: 0; }
+      .zoom { position: absolute; inset: 0; transform-origin: 50% 50%; }
+      .content { position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: center; padding: 0 170px; gap: 18px; }
+      .content.center { align-items: center; text-align: center; }
+
+      /* ---- textes ---- */
+      .line { display: block; white-space: nowrap; line-height: 0.98; }
+      .w { display: inline-block; white-space: nowrap; }
+      .L { display: inline-block; transform-origin: 50% 100%; }
+      .serif { font-family: var(--serif); font-weight: 400; letter-spacing: -0.01em; }
+      .it { font-style: italic; }
+      .sans { font-family: var(--sans); font-weight: 800; letter-spacing: -0.035em; }
+      .label { font-family: var(--sans); font-weight: 700; font-size: 38px; letter-spacing: 0.16em; text-transform: uppercase; display: flex; align-items: center; gap: 22px; }
+      .label .dash { display: block; width: 64px; height: 6px; background: var(--orange); }
+      .hot { color: var(--orange); }
+      .s300 { font-size: 300px; } .s240 { font-size: 240px; } .s200 { font-size: 200px; } .s170 { font-size: 170px; }
+      .s140 { font-size: 140px; } .s110 { font-size: 110px; } .s90 { font-size: 90px; } .s72 { font-size: 72px; }
+
+      /* fente : le texte sort de derrière une ligne horizontale */
+      .slit { position: relative; display: block; width: fit-content; overflow: hidden; padding: 0 0.04em 0.06em; white-space: nowrap; }
+      .slit .rule { position: absolute; left: 0; right: 0; bottom: 0; height: 4px; background: currentColor; transform-origin: 0 50%; }
+      .slit .w { line-height: 1.12; }
+
+      /* ---- éléments graphiques ---- */
+      .dot { position: absolute; border-radius: 50%; background: var(--orange); }
+      .grid { position: absolute; inset: 0; background-image: radial-gradient(circle, rgba(19, 19, 19, 0.55) 3px, transparent 3.5px); background-size: 48px 48px; background-position: 24px 24px; }
+      .ring { position: absolute; border: 3px solid rgba(19, 19, 19, 0.45); border-radius: 50%; }
+      .link { position: absolute; height: 6px; background: var(--ink); transform-origin: 0 50%; }
+      .check { position: absolute; width: 150px; height: 150px; border-radius: 50%; background: var(--orange); display: flex; align-items: center; justify-content: center; }
+      .logo { display: inline-flex; align-items: center; gap: 30px; padding: 26px 46px 26px 26px; border-radius: 30px; background: var(--ink); color: var(--cream); }
+      .logo .mark { width: 120px; height: 120px; border-radius: 26px; background: var(--orange); color: var(--cream); display: flex; align-items: center; justify-content: center; font-family: var(--sans); font-weight: 800; font-size: 92px; }
+      .logo .name { font-family: var(--sans); font-weight: 800; font-size: 130px; letter-spacing: 0.02em; }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="40.5" data-width="1920" data-height="1080">
+      <svg width="0" height="0" style="position: absolute"><defs id="fx"></defs></svg>
+
+      <audio id="voix" src="assets/voix.mp3" data-start="0" data-duration="39.4" data-track-index="9" data-volume="1"></audio>
+
+      <!-- 1 · Accroche -->
+      <section id="s1" class="scene clip" data-start="0" data-duration="2.65" data-track-index="1" data-dir="first">
+        <div class="panel first bg-cream"></div>
+        <div class="stage"><div class="copy"><div class="zoom"><div class="content">
+          <div class="slit label"><span class="w" data-w="0"><span class="dash"></span></span> <span class="w" data-w="0">Au</span> <span class="w" data-w="1">Sénégal,</span><span class="rule"></span></div>
+          <div class="line serif s200 rv"><span class="w" data-w="2">tu</span> <span class="w" data-w="3">cherches</span></div>
+          <div class="line serif it s200 rv"><span class="w" data-w="4">un</span> <span class="w" data-w="5">plombier&nbsp;?</span></div>
+        </div></div></div></div>
+      </section>
+
+      <!-- 2 · La chaîne du bouche-à-oreille -->
+      <section id="s2" class="scene clip" data-start="2.05" data-duration="4.35" data-track-index="2" data-dir="r">
+        <div class="panel r bg-ink"></div>
+        <div class="stage"><div class="copy"><div class="zoom"><div class="content">
+          <div class="slit serif s140"><span class="w" data-w="6">Tu</span> <span class="w" data-w="7">appelles</span> <span class="w it hot" data-w="8">un</span> <span class="w it hot" data-w="9">cousin.</span><span class="rule"></span></div>
+          <div class="slit serif s140"><span class="w" data-w="10">Qui</span> <span class="w" data-w="11">connaît</span> <span class="w it hot" data-w="12">quelqu'un.</span><span class="rule"></span></div>
+          <div class="line serif s140 rv"><span class="w" data-w="13">Qui</span> <span class="w" data-w="14">n'est</span> <span class="w it hot fall" data-w="15">pas</span> <span class="w it hot fall" data-w="16">dispo.</span></div>
+        </div><div class="dot hop" style="left: 92px; top: 0; width: 40px; height: 40px"></div></div></div></div>
+      </section>
+
+      <!-- 3 · Le prix -->
+      <section id="s3" class="scene clip" data-start="5.8" data-duration="2.62" data-track-index="1" data-dir="u">
+        <div class="panel u bg-orange"></div>
+        <div class="stage"><div class="copy"><div class="zoom"><div class="content">
+          <div class="line serif it s300 rv"><span class="w" data-w="17">Et</span> <span class="w" data-w="18">le</span> <span class="w" data-w="19">prix&nbsp;?</span></div>
+          <div class="slit sans s110"><span class="w" data-w="20">Personne</span> <span class="w" data-w="21">ne</span> <span class="w" data-w="22">sait.</span><span class="rule"></span></div>
+        </div></div></div></div>
+      </section>
+
+      <!-- 4 · Jokko change ça -->
+      <section id="s4" class="scene clip" data-start="7.82" data-duration="2.1" data-track-index="2" data-dir="r">
+        <div class="panel r bg-ink"></div>
+        <div class="stage"><div class="copy"><div class="zoom"><div class="content center">
+          <div class="line sans s300 rv"><span class="w" data-w="23">Jokko</span></div>
+          <div class="slit serif it s170 hot"><span class="w" data-w="24">change</span> <span class="w" data-w="25">ça</span><span class="rule"></span></div>
+        </div><div class="dot period" style="left: 1252px; top: 742px; width: 34px; height: 34px"></div></div></div></div>
+      </section>
+
+      <!-- 5 · Les chiffres -->
+      <section id="s5" class="scene clip" data-start="9.32" data-duration="4" data-track-index="1" data-dir="r">
+        <div class="panel r bg-cream"></div>
+        <div class="stage"><div class="copy"><div class="zoom"><div class="content">
+          <div class="line serif s140 rv"><span class="w" data-w="26">Plus</span> <span class="w" data-w="27">de</span> <span class="w sans num s240" data-w="28" data-to="70">70</span> <span class="w it" data-w="29">services.</span></div>
+          <div class="line serif s140 rv"><span class="w" data-w="30">Dans</span> <span class="w" data-w="31">plus</span> <span class="w" data-w="32">de</span> <span class="w sans num s240" data-w="33" data-to="20">20</span> <span class="w it" data-w="34">catégories.</span></div>
+        </div></div></div></div>
+      </section>
+
+      <!-- 6 · Les métiers, sur le temps -->
+      <section id="s6a" class="scene clip" data-start="12.72" data-duration="1.33" data-track-index="2" data-dir="r">
+        <div class="panel r bg-orange"></div>
+        <div class="stage"><div class="copy"><div class="zoom"><div class="content center">
+          <div class="line serif it s300 rv"><span class="w" data-w="35">Plombier.</span></div>
+        </div></div></div></div>
+      </section>
+      <section id="s6b" class="scene clip" data-start="13.45" data-duration="1.53" data-track-index="1" data-dir="r">
+        <div class="panel r bg-ink"></div>
+        <div class="stage"><div class="copy"><div class="zoom"><div class="content center">
+          <div class="line serif it s300 rv"><span class="w" data-w="36">Électricien.</span></div>
+        </div></div></div></div>
+      </section>
+      <section id="s6c" class="scene clip" data-start="14.38" data-duration="2.6" data-track-index="2" data-dir="r">
+        <div class="panel r bg-cream"></div>
+        <div class="stage"><div class="copy"><div class="zoom"><div class="content center">
+          <div class="line serif it s240 rv"><span class="w" data-w="37">Femme</span> <span class="w" data-w="38">de</span> <span class="w" data-w="39">ménage.</span></div>
+        </div></div></div></div>
+      </section>
+
+      <!-- 7 · Vérifiés -->
+      <section id="s7" class="scene clip" data-start="16.38" data-duration="2.17" data-track-index="1" data-dir="u">
+        <div class="panel u bg-ink"></div>
+        <div class="stage"><div class="copy"><div class="zoom"><div class="content">
+          <div class="slit serif s170"><span class="w" data-w="40">Des</span> <span class="w" data-w="41">prestataires</span><span class="rule"></span></div>
+          <div class="line serif it s240 hot rv"><span class="w" data-w="42">vérifiés.</span></div>
+        </div><div class="check" style="left: 1150px; top: 560px">
+          <svg width="84" height="84" viewBox="0 0 84 84"><path d="M14 44 L34 64 L72 22" fill="none" stroke="#131313" stroke-width="11" stroke-linecap="round" stroke-linejoin="round" /></svg>
+        </div></div></div></div>
+      </section>
+
+      <!-- 8 · Prix en FCFA -->
+      <section id="s8" class="scene clip" data-start="17.95" data-duration="3.43" data-track-index="2" data-dir="r">
+        <div class="panel r bg-orange"></div>
+        <div class="stage"><div class="copy"><div class="zoom"><div class="content">
+          <div class="line serif s140 rv"><span class="w" data-w="43">Des</span> <span class="w" data-w="44">prix</span> <span class="w it" data-w="45">indicatifs,</span></div>
+          <div class="slit serif s140"><span class="w" data-w="46">affichés</span> <span class="w" data-w="47">en</span> <span class="w sans s240" data-w="48">FCFA.</span><span class="rule"></span></div>
+        </div></div></div></div>
+      </section>
+
+      <!-- 9 · Près de chez toi -->
+      <section id="s9" class="scene clip" data-start="20.78" data-duration="2.67" data-track-index="1" data-dir="d">
+        <div class="panel d bg-cream"><div class="grid" style="top: 360px; height: 1080px"></div></div>
+        <div class="stage"><div class="copy"><div class="zoom">
+          <div class="ring" style="left: 1310px; top: 470px; width: 140px; height: 140px"></div>
+          <div class="ring" style="left: 1310px; top: 470px; width: 140px; height: 140px"></div>
+          <div class="dot drop" style="left: 1350px; top: 510px; width: 60px; height: 60px"></div>
+          <div class="content">
+          <div class="line serif s170 rv"><span class="w" data-w="49">Près</span> <span class="w" data-w="50">de</span> <span class="w" data-w="51">chez</span> <span class="w" data-w="52">toi,</span></div>
+          <div class="slit serif it s140"><span class="w" data-w="53">en</span> <span class="w" data-w="54">quelques</span> <span class="w" data-w="55">clics.</span><span class="rule"></span></div>
+        </div></div></div></div>
+      </section>
+
+      <!-- 10 · Diaspora -->
+      <section id="s10" class="scene clip" data-start="22.85" data-duration="4.2" data-track-index="2" data-dir="r">
+        <div class="panel r bg-ink"></div>
+        <div class="stage"><div class="copy"><div class="zoom">
+          <div class="dot fly" style="left: 0; top: 0; width: 46px; height: 46px"></div>
+          <div class="content">
+          <div class="line serif it s170 hot rv"><span class="w" data-w="56">Tu</span> <span class="w" data-w="57">vis</span> <span class="w" data-w="58">à</span> <span class="w" data-w="59">l'étranger&nbsp;?</span></div>
+          <div class="slit serif s110"><span class="w" data-w="60">Organise</span> <span class="w" data-w="61">les</span> <span class="w" data-w="62">services</span><span class="rule"></span></div>
+          <div class="slit serif s110"><span class="w" data-w="63">de</span> <span class="w" data-w="64">tes</span> <span class="w" data-w="65">proches</span> <span class="w" data-w="66">au</span> <span class="w it" data-w="67">pays.</span><span class="rule"></span></div>
+        </div></div></div></div>
+      </section>
+
+      <!-- 11 · Les pros -->
+      <section id="s11" class="scene clip" data-start="26.45" data-duration="3.75" data-track-index="1" data-dir="r">
+        <div class="panel r bg-orange"></div>
+        <div class="stage"><div class="copy"><div class="zoom"><div class="content">
+          <div class="line serif s140 rv"><span class="w" data-w="68">Tu</span> <span class="w" data-w="69">es</span> <span class="w it" data-w="70">artisan</span> <span class="w" data-w="71">ou</span> <span class="w it" data-w="72">indépendant&nbsp;?</span></div>
+          <div class="slit sans s90"><span class="w" data-w="73">Trouve</span> <span class="w" data-w="74">de</span> <span class="w" data-w="75">nouveaux</span> <span class="w" data-w="76">clients,</span><span class="rule"></span></div>
+          <div class="slit serif it s90"><span class="w" data-w="77">sans</span> <span class="w" data-w="78">intermédiaire</span> <span class="w" data-w="79">compliqué.</span><span class="rule"></span></div>
+        </div></div></div></div>
+      </section>
+
+      <!-- 12 · Dakar -->
+      <section id="s12" class="scene clip" data-start="29.6" data-duration="1.65" data-track-index="2" data-dir="u">
+        <div class="panel u bg-ink"></div>
+        <div class="stage"><div class="copy"><div class="zoom"><div class="content center">
+          <div class="slit sans s72"><span class="w" data-w="80">On</span> <span class="w" data-w="81">commence</span> <span class="w" data-w="82">par</span><span class="rule"></span></div>
+          <div class="line serif it s300 hot rv"><span class="w" data-w="83">Dakar.</span></div>
+        </div></div></div></div>
+      </section>
+
+      <!-- 13 · Le lien -->
+      <section id="s13" class="scene clip" data-start="30.65" data-duration="4.77" data-track-index="1" data-dir="r">
+        <div class="panel r bg-cream"></div>
+        <div class="stage"><div class="copy"><div class="zoom">
+          <div class="link" style="left: 1040px; top: 317px; width: 290px"></div>
+          <div class="dot" style="left: 1010px; top: 300px; width: 40px; height: 40px"></div>
+          <div class="dot far" style="left: 1320px; top: 300px; width: 40px; height: 40px"></div>
+          <div class="content">
+          <div class="line sans s240 rv"><span class="w" data-w="84">Jokko,</span></div>
+          <div class="slit label"><span class="w" data-w="85"><span class="dash"></span></span> <span class="w" data-w="85">en</span> <span class="w" data-w="86">wolof,</span><span class="rule"></span></div>
+          <div class="line serif s140 rv"><span class="w" data-w="87">c'est</span> <span class="w" data-w="88">être</span> <span class="w" data-w="89">en</span> <span class="w it" data-w="90">lien.</span></div>
+          <div class="slit serif it s90"><span class="w" data-w="91">C'est</span> <span class="w" data-w="92">exactement</span> <span class="w" data-w="93">ce</span> <span class="w" data-w="94">qu'on</span> <span class="w" data-w="95">fait.</span><span class="rule"></span></div>
+        </div></div></div></div>
+      </section>
+
+      <!-- 14 · La promesse -->
+      <section id="s14" class="scene clip" data-start="34.82" data-duration="3.43" data-track-index="2" data-dir="r">
+        <div class="panel r bg-ink"></div>
+        <div class="stage"><div class="copy"><div class="zoom"><div class="content">
+          <div class="line serif s140 rv"><span class="w" data-w="96">Le</span> <span class="w" data-w="97">bon</span> <span class="w it hot" data-w="98">prestataire,</span></div>
+          <div class="line serif s140 rv"><span class="w" data-w="99">au</span> <span class="w" data-w="100">bon</span> <span class="w it hot" data-w="101">prix,</span></div>
+          <div class="slit serif s140"><span class="w" data-w="102">près</span> <span class="w" data-w="103">de</span> <span class="w" data-w="104">chez</span> <span class="w it hot" data-w="105">toi.</span><span class="rule"></span></div>
+        </div></div></div></div>
+      </section>
+
+      <!-- 15 · Signature -->
+      <section id="s15" class="scene clip" data-start="37.65" data-duration="2.85" data-track-index="1" data-dir="u">
+        <div class="panel u bg-orange"></div>
+        <div class="stage"><div class="copy"><div class="zoom"><div class="content center" style="gap: 60px">
+          <div class="line serif it s170 rv"><span class="w" data-w="106">Besoin</span> <span class="w" data-w="107">d'un</span> <span class="w" data-w="108">pro&nbsp;?</span></div>
+          <div class="slit" style="color: var(--ink)"><span class="w" data-w="109"><span class="logo"><span class="mark">J</span><span class="name">JOKKO</span></span></span><span class="rule"></span></div>
+        </div></div></div></div>
+      </section>
+    </div>
+
+    <script>
+      // Début de chaque mot dans assets/voix.mp3 (secondes), dans l'ordre du script.
+      // Source : assets/words.json. Pour recaler la vidéo, il suffit de remplacer ce tableau.
+      const W = [0.0, 0.165, 0.99, 1.14, 1.31, 1.47, 2.23, 2.395, 2.655, 2.73, 3.42, 3.575, 3.85, 4.62, 4.765, 4.93, 5.145, 5.9, 6.12, 6.195, 6.78, 7.14, 7.33, 7.98, 8.525, 8.795, 9.47, 9.635, 9.875, 10.46, 11.1, 11.305, 11.41, 11.635, 11.785, 12.85, 13.58, 14.5, 14.915, 15.365, 16.51, 16.705, 17.28, 18.09, 18.33, 18.52, 19.51, 20.18, 20.425, 20.92, 21.09, 21.205, 21.395, 21.82, 22.02, 22.42, 23.0, 23.14, 23.315, 23.415, 24.11, 24.695, 24.89, 25.175, 25.395, 25.6, 25.765, 25.955, 26.59, 26.655, 26.865, 27.235, 27.36, 28.19, 28.29, 28.455, 28.635, 28.77, 28.895, 29.315, 29.7, 29.82, 29.99, 30.1, 30.78, 31.49, 31.755, 32.14, 32.38, 32.58, 32.835, 33.28, 33.475, 33.975, 34.145, 34.485, 34.96, 35.15, 35.44, 36.07, 36.3, 36.51, 36.92, 37.105, 37.205, 37.345, 37.79, 38.04, 38.26, 38.79];
+      const T = (i) => W[i];
+      const F = 1 / 60; // une image
+      const END = 40.5;
+      // Échos : copies fantômes qui rejouent la même animation avec un léger retard.
+      const ECHOES = [
+        { lag: 0.035, alpha: 0.3 },
+        { lag: 0.07, alpha: 0.16 },
+        { lag: 0.105, alpha: 0.08 },
+      ];
+      const MOVE = { r: { x: 1, y: 0 }, u: { x: 0, y: -1 }, d: { x: 0, y: 1 } };
+
+      // PRNG déterministe pour le frémissement des lettres.
+      let seed = 20261018;
+      const rnd = () => {
+        seed = (seed + 0x6d2b79f5) | 0;
+        let t = Math.imul(seed ^ (seed >>> 15), 1 | seed);
+        t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+        return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+      };
+
+      const fx = document.getElementById("fx");
+      let fid = 0;
+      function blurFilter(x, y) {
+        const id = "f" + fid++;
+        fx.insertAdjacentHTML(
+          "beforeend",
+          `<filter id="${id}" x="-60%" y="-60%" width="220%" height="220%"><feGaussianBlur stdDeviation="${x} ${y}"/></filter>`,
+        );
+        return { id, node: fx.lastElementChild.firstElementChild };
+      }
+
+      const tl = gsap.timeline({ paused: true });
+      document.fonts.ready.then(build);
+
+      function build() {
+      const scenes = [...document.querySelectorAll("section.scene")];
+
+      // 1) Découpe les mots des titres en lettres, crée un flou vertical par lettre.
+      document.querySelectorAll(".rv .w").forEach((w) => {
+        if (w.classList.contains("num")) return;
+        const txt = w.textContent;
+        w.textContent = "";
+        for (const ch of txt) {
+          const s = document.createElement("span");
+          s.className = "L";
+          s.textContent = ch === " " ? " " : ch;
+          const f = blurFilter(0, 0);
+          s.dataset.f = f.id;
+          w.appendChild(s);
+        }
+      });
+      document.querySelectorAll(".rv .num, .slit .w").forEach((w) => {
+        const f = blurFilter(0, 0);
+        w.dataset.f = f.id;
+      });
+
+      // 2) Paramètres de frémissement figés (les échos reçoivent les mêmes).
+      document.querySelectorAll(".L, .slit .w, .num").forEach((el) => {
+        el.dataset.jy = ((rnd() - 0.5) * 3).toFixed(2);
+        el.dataset.jr = ((rnd() - 0.5) * 1.6).toFixed(2);
+        el.dataset.jd = (0.16 + rnd() * 0.16).toFixed(3);
+      });
+
+      // 3) Crée les copies fantômes (échos) de chaque scène.
+      scenes.forEach((sc) => {
+        const stage = sc.querySelector(".stage");
+        const main = stage.querySelector(".copy");
+        main.classList.add("main");
+        ECHOES.slice()
+          .reverse()
+          .forEach((e) => {
+            const g = main.cloneNode(true);
+            g.classList.remove("main");
+            g.classList.add("ghost");
+            g.style.opacity = e.alpha;
+            g.dataset.lag = e.lag;
+            g.setAttribute("aria-hidden", "true");
+            g.setAttribute("data-layout-ignore", ""); // copie décorative (écho)
+            stage.insertBefore(g, main);
+          });
+        main.dataset.lag = 0;
+      });
+
+      const filterOf = (el) => document.getElementById(el.dataset.f).firstElementChild;
+
+      // Règle 1 : chaque lettre monte en s'étirant, avec un flou vertical, 2 images après sa voisine.
+      function letters(copy, lag, isMain) {
+        copy.querySelectorAll(".rv .w").forEach((w) => {
+          const t0 = T(+w.dataset.w) - 0.04 + lag;
+          const items = w.classList.contains("num") ? [w] : [...w.querySelectorAll(".L")];
+          items.forEach((L, j) => {
+            const t = t0 + j * 2 * F;
+            tl.fromTo(L, { yPercent: 95, scaleY: 2.6, opacity: 0 }, { yPercent: 0, scaleY: 1, opacity: 1, duration: 0.55, ease: "expo.out" }, t);
+            tl.set(L, { filter: `url(#${L.dataset.f})` }, t);
+            tl.set(L, { filter: "none" }, t + 0.5);
+            if (isMain)
+              tl.fromTo(filterOf(L), { attr: { stdDeviation: "0 22" } }, { attr: { stdDeviation: "0 0" }, duration: 0.45, ease: "power2.out" }, t);
+          });
+          if (w.classList.contains("num")) {
+            const o = { v: 0 };
+            tl.fromTo(w, { textContent: 0 }, { textContent: +w.dataset.to, duration: 0.7, ease: "expo.out", snap: { textContent: 1 } }, t0);
+          }
+        });
+      }
+
+      // Règle 3 : certains mots sortent d'une fente, derrière une ligne horizontale.
+      function slits(copy, lag, isMain) {
+        copy.querySelectorAll(".slit").forEach((sl) => {
+          const ws = [...sl.querySelectorAll(":scope > .w")];
+          const first = T(+ws[0].dataset.w) + lag;
+          tl.fromTo(sl.querySelector(".rule"), { scaleX: 0 }, { scaleX: 1, duration: 0.35, ease: "expo.out" }, first - 0.28);
+          ws.forEach((w) => {
+            const t = T(+w.dataset.w) - 0.05 + lag;
+            tl.fromTo(w, { yPercent: 115, scaleY: 1.5 }, { yPercent: 0, scaleY: 1, duration: 0.5, ease: "expo.out" }, t);
+            tl.set(w, { filter: `url(#${w.dataset.f})` }, t);
+            tl.set(w, { filter: "none" }, t + 0.45);
+            if (isMain) tl.fromTo(filterOf(w), { attr: { stdDeviation: "0 14" } }, { attr: { stdDeviation: "0 0" }, duration: 0.4, ease: "power2.out" }, t);
+          });
+        });
+      }
+
+      // Règle 5 : le texte vit toujours (zoom continu + lettres qui frémissent).
+      function alive(copy, lag, start, dur) {
+        tl.fromTo(copy.querySelector(".zoom"), { scale: 1 }, { scale: 1.06, duration: dur, ease: "none" }, start + lag);
+        copy.querySelectorAll(".L, .slit .w, .num").forEach((el) => {
+          const d = +el.dataset.jd;
+          const n = Math.max(0, Math.floor(dur / d) - 1);
+          tl.fromTo(el, { y: -el.dataset.jy, rotation: -el.dataset.jr }, { y: +el.dataset.jy, rotation: +el.dataset.jr, duration: d, ease: "sine.inOut", repeat: n, yoyo: true, immediateRender: false }, start + lag);
+        });
+      }
+
+      // Règle 4 : pas de coupe sèche. La scène sortante part en traînée floue,
+      // la suivante arrive dans la même direction avec un bord dégradé.
+      const smear = scenes.map((sc) => {
+        const f = blurFilter(0, 0);
+        sc.querySelector(".stage").style.filter = "none";
+        return f;
+      });
+
+      scenes.forEach((sc, k) => {
+        const start = +sc.dataset.start;
+        const next = scenes[k + 1];
+        const exitAt = next ? +next.dataset.start : null;
+        const dir = sc.dataset.dir;
+        const stage = sc.querySelector(".stage");
+        const blur = smear[k];
+
+        if (dir !== "first") {
+          const v = MOVE[dir];
+          const panel = sc.querySelector(".panel");
+          const off = v.x ? { x: 1920 + 360 } : { y: v.y < 0 ? 1080 + 360 : -(1080 + 360) };
+          tl.fromTo(panel, off, { x: 0, y: 0, duration: 0.55, ease: "power3.inOut" }, start);
+          tl.set(stage, { filter: `url(#${blur.id})` }, start);
+          tl.fromTo(blur.node, { attr: { stdDeviation: v.x ? "70 0" : "0 70" } }, { attr: { stdDeviation: "0 0" }, duration: 0.6, ease: "power3.out" }, start + 0.1);
+          tl.set(stage, { filter: "none" }, start + 0.72);
+        }
+        if (next) {
+          const v = MOVE[next.dataset.dir];
+          tl.set(stage, { filter: `url(#${blur.id})` }, exitAt);
+          tl.fromTo(blur.node, { attr: { stdDeviation: "0 0" } }, { attr: { stdDeviation: v.x ? "90 0" : "0 90" }, duration: 0.45, ease: "power2.in", immediateRender: false }, exitAt);
+        }
+
+        sc.querySelectorAll(".copy").forEach((copy) => {
+          const lag = +copy.dataset.lag;
+          const isMain = copy.classList.contains("main");
+          const dur = (exitAt ?? END) + 0.6 - start;
+          if (dir !== "first") {
+            const v = MOVE[dir];
+            tl.fromTo(copy, { x: v.x * 760, y: -v.y * 520, opacity: 0 }, { x: 0, y: 0, opacity: copy.style.opacity || 1, duration: 0.6, ease: "expo.out" }, start + 0.05 + lag);
+          }
+          if (next) {
+            const v = MOVE[next.dataset.dir];
+            tl.to(copy, { x: -v.x * 1100, y: v.y * 700, duration: 0.5, ease: "power3.in" }, exitAt + lag);
+          }
+          letters(copy, lag, isMain);
+          slits(copy, lag, isMain);
+          alive(copy, lag, start, dur);
+          extras(sc.id, copy, lag);
+        });
+      });
+
+      // Animations propres à certaines scènes (le point orange, fil conducteur).
+      function extras(id, c, lag) {
+        const q = (s) => c.querySelector(s);
+        const qa = (s) => [...c.querySelectorAll(s)];
+        if (id === "s2") {
+          const dot = q(".hop");
+          const rows = qa(".content > *").map((r) => r.offsetTop + r.offsetHeight / 2 - 20);
+          tl.fromTo(dot, { y: rows[0], scale: 0 }, { scale: 1, duration: 0.35, ease: "back.out(3)" }, T(6) + lag);
+          [1, 2].forEach((r, i) => {
+            const t = T([10, 13][i]) - 0.12 + lag;
+            tl.to(dot, { y: rows[r], duration: 0.32, ease: "back.inOut(2)" }, t);
+            tl.fromTo(dot, { scaleY: 1 }, { scaleY: 1.6, duration: 0.16, yoyo: true, repeat: 1, ease: "sine.inOut", immediateRender: false }, t);
+          });
+          // « pas dispo. » : les lettres se décrochent et tombent
+          qa(".fall .L").forEach((L, j) => {
+            tl.to(L, { y: 900, rotation: (j % 2 ? 1 : -1) * (30 + j * 9), duration: 0.75, ease: "power2.in" }, 5.42 + j * 0.035 + lag);
+          });
+          tl.to(dot, { y: rows[2] + 900, duration: 0.6, ease: "power2.in" }, 5.62 + lag);
+        }
+        if (id === "s4") {
+          // le point vient se poser après « ça », comme un point final
+          const w = q('[data-w="25"]');
+          let x = 0, y = 0;
+          for (let n = w; n && n !== q(".zoom"); n = n.offsetParent) { x += n.offsetLeft; y += n.offsetTop; }
+          q(".period").style.left = x + w.offsetWidth + 8 + "px";
+          q(".period").style.top = y + w.offsetHeight * 0.68 + "px";
+          tl.fromTo(q(".period"), { y: -620, x: -380, scale: 0.4 }, { y: 0, x: 0, scale: 1, duration: 0.5, ease: "bounce.out" }, T(25) + 0.1 + lag);
+        }
+        if (id === "s7") {
+          tl.fromTo(q(".check"), { scale: 0, rotation: -40 }, { scale: 1, rotation: 0, duration: 0.6, ease: "back.out(2.2)" }, T(42) + 0.15 + lag);
+          const p = q(".check path");
+          tl.fromTo(p, { attr: { "stroke-dasharray": "100 100", "stroke-dashoffset": 100 } }, { attr: { "stroke-dashoffset": 0 }, duration: 0.4, ease: "power2.out" }, T(42) + 0.3 + lag);
+        }
+        if (id === "s9") {
+          const t = T(49) + lag;
+          tl.fromTo(q(".drop"), { y: -560, scale: 3.2 }, { y: 0, scale: 1, duration: 0.55, ease: "power3.in" }, t - 0.2);
+          qa(".ring").forEach((r, i) => {
+            tl.fromTo(r, { scale: 0.4, opacity: 0.9 }, { scale: 9 + i * 4, opacity: 0, duration: 1.4, ease: "expo.out" }, t + 0.35 + i * 0.22);
+          });
+        }
+        if (id === "s10") {
+          const dot = q(".fly");
+          const t = T(56) + lag;
+          tl.fromTo(dot, { x: -80, y: 860 }, { x: 1900, duration: 1.3, ease: "power1.inOut" }, t);
+          tl.fromTo(dot, { y: 860 }, { y: 120, duration: 0.65, ease: "sine.out", yoyo: true, repeat: 1, immediateRender: false }, t);
+        }
+        if (id === "s13") {
+          const dots = qa(".dot");
+          tl.fromTo(dots, { scale: 0 }, { scale: 1, duration: 0.4, ease: "back.out(3)", stagger: 0.12 }, T(84) + lag);
+          tl.fromTo(q(".link"), { scaleX: 0 }, { scaleX: 1, duration: 0.5, ease: "expo.out" }, T(90) - 0.1 + lag);
+          tl.fromTo(q(".far"), { x: 120 }, { x: 0, duration: 0.5, ease: "expo.out", immediateRender: false }, T(90) - 0.1 + lag);
+        }
+      }
+
+      window.__timelines["main"] = tl;
+      }
+    </script>
+  </body>
+</html>

@@ -1,0 +1,552 @@
+[
+ {
+  "text": "Au",
+  "start": 0.0,
+  "end": 0.165
+ },
+ {
+  "text": "Sénégal,",
+  "start": 0.165,
+  "end": 0.67
+ },
+ {
+  "text": "tu",
+  "start": 0.99,
+  "end": 1.14
+ },
+ {
+  "text": "cherches",
+  "start": 1.14,
+  "end": 1.31
+ },
+ {
+  "text": "un",
+  "start": 1.31,
+  "end": 1.47
+ },
+ {
+  "text": "plombier?",
+  "start": 1.47,
+  "end": 1.79
+ },
+ {
+  "text": "Tu",
+  "start": 2.23,
+  "end": 2.395
+ },
+ {
+  "text": "appelles",
+  "start": 2.395,
+  "end": 2.655
+ },
+ {
+  "text": "un",
+  "start": 2.655,
+  "end": 2.73
+ },
+ {
+  "text": "cousin.",
+  "start": 2.73,
+  "end": 3.02
+ },
+ {
+  "text": "Qui",
+  "start": 3.42,
+  "end": 3.575
+ },
+ {
+  "text": "connaît",
+  "start": 3.575,
+  "end": 3.85
+ },
+ {
+  "text": "quelqu'un.",
+  "start": 3.85,
+  "end": 4.2
+ },
+ {
+  "text": "Qui",
+  "start": 4.62,
+  "end": 4.765
+ },
+ {
+  "text": "n'est",
+  "start": 4.765,
+  "end": 4.93
+ },
+ {
+  "text": "pas",
+  "start": 4.93,
+  "end": 5.145
+ },
+ {
+  "text": "dispo.",
+  "start": 5.145,
+  "end": 5.44
+ },
+ {
+  "text": "Et",
+  "start": 5.9,
+  "end": 6.12
+ },
+ {
+  "text": "le",
+  "start": 6.12,
+  "end": 6.195
+ },
+ {
+  "text": "prix?",
+  "start": 6.195,
+  "end": 6.35
+ },
+ {
+  "text": "Personne",
+  "start": 6.78,
+  "end": 7.14
+ },
+ {
+  "text": "ne",
+  "start": 7.14,
+  "end": 7.33
+ },
+ {
+  "text": "sait.",
+  "start": 7.33,
+  "end": 7.53
+ },
+ {
+  "text": "Jokko",
+  "start": 7.98,
+  "end": 8.525
+ },
+ {
+  "text": "change",
+  "start": 8.525,
+  "end": 8.795
+ },
+ {
+  "text": "ça.",
+  "start": 8.795,
+  "end": 9.09
+ },
+ {
+  "text": "Plus",
+  "start": 9.47,
+  "end": 9.635
+ },
+ {
+  "text": "de",
+  "start": 9.635,
+  "end": 9.875
+ },
+ {
+  "text": "70",
+  "start": 9.875,
+  "end": 10.46
+ },
+ {
+  "text": "services.",
+  "start": 10.46,
+  "end": 10.89
+ },
+ {
+  "text": "Dans",
+  "start": 11.1,
+  "end": 11.305
+ },
+ {
+  "text": "plus",
+  "start": 11.305,
+  "end": 11.41
+ },
+ {
+  "text": "de",
+  "start": 11.41,
+  "end": 11.635
+ },
+ {
+  "text": "20",
+  "start": 11.635,
+  "end": 11.785
+ },
+ {
+  "text": "catégories.",
+  "start": 11.785,
+  "end": 12.48
+ },
+ {
+  "text": "Plombier.",
+  "start": 12.85,
+  "end": 13.41
+ },
+ {
+  "text": "Électricien.",
+  "start": 13.58,
+  "end": 14.36
+ },
+ {
+  "text": "Femme",
+  "start": 14.5,
+  "end": 14.915
+ },
+ {
+  "text": "de",
+  "start": 14.915,
+  "end": 15.365
+ },
+ {
+  "text": "ménage.",
+  "start": 15.365,
+  "end": 16.23
+ },
+ {
+  "text": "Des",
+  "start": 16.51,
+  "end": 16.705
+ },
+ {
+  "text": "prestataires",
+  "start": 16.705,
+  "end": 17.28
+ },
+ {
+  "text": "vérifiés.",
+  "start": 17.28,
+  "end": 17.88
+ },
+ {
+  "text": "Des",
+  "start": 18.09,
+  "end": 18.33
+ },
+ {
+  "text": "prix",
+  "start": 18.33,
+  "end": 18.52
+ },
+ {
+  "text": "indicatifs,",
+  "start": 18.52,
+  "end": 19.51
+ },
+ {
+  "text": "affichés",
+  "start": 19.51,
+  "end": 20.18
+ },
+ {
+  "text": "en",
+  "start": 20.18,
+  "end": 20.425
+ },
+ {
+  "text": "FCFA.",
+  "start": 20.425,
+  "end": 20.63
+ },
+ {
+  "text": "Près",
+  "start": 20.92,
+  "end": 21.09
+ },
+ {
+  "text": "de",
+  "start": 21.09,
+  "end": 21.205
+ },
+ {
+  "text": "chez",
+  "start": 21.205,
+  "end": 21.395
+ },
+ {
+  "text": "toi,",
+  "start": 21.395,
+  "end": 21.58
+ },
+ {
+  "text": "en",
+  "start": 21.82,
+  "end": 22.02
+ },
+ {
+  "text": "quelques",
+  "start": 22.02,
+  "end": 22.42
+ },
+ {
+  "text": "clics.",
+  "start": 22.42,
+  "end": 22.62
+ },
+ {
+  "text": "Tu",
+  "start": 23.0,
+  "end": 23.14
+ },
+ {
+  "text": "vis",
+  "start": 23.14,
+  "end": 23.315
+ },
+ {
+  "text": "à",
+  "start": 23.315,
+  "end": 23.415
+ },
+ {
+  "text": "l'étranger?",
+  "start": 23.415,
+  "end": 23.78
+ },
+ {
+  "text": "Organise",
+  "start": 24.11,
+  "end": 24.695
+ },
+ {
+  "text": "les",
+  "start": 24.695,
+  "end": 24.89
+ },
+ {
+  "text": "services",
+  "start": 24.89,
+  "end": 25.175
+ },
+ {
+  "text": "de",
+  "start": 25.175,
+  "end": 25.395
+ },
+ {
+  "text": "tes",
+  "start": 25.395,
+  "end": 25.6
+ },
+ {
+  "text": "proches",
+  "start": 25.6,
+  "end": 25.765
+ },
+ {
+  "text": "au",
+  "start": 25.765,
+  "end": 25.955
+ },
+ {
+  "text": "pays.",
+  "start": 25.955,
+  "end": 26.33
+ },
+ {
+  "text": "Tu",
+  "start": 26.59,
+  "end": 26.655
+ },
+ {
+  "text": "es",
+  "start": 26.655,
+  "end": 26.865
+ },
+ {
+  "text": "artisan",
+  "start": 26.865,
+  "end": 27.235
+ },
+ {
+  "text": "ou",
+  "start": 27.235,
+  "end": 27.36
+ },
+ {
+  "text": "indépendant?",
+  "start": 27.36,
+  "end": 27.91
+ },
+ {
+  "text": "Trouve",
+  "start": 28.19,
+  "end": 28.29
+ },
+ {
+  "text": "de",
+  "start": 28.29,
+  "end": 28.455
+ },
+ {
+  "text": "nouveaux",
+  "start": 28.455,
+  "end": 28.635
+ },
+ {
+  "text": "clients,",
+  "start": 28.635,
+  "end": 28.77
+ },
+ {
+  "text": "sans",
+  "start": 28.77,
+  "end": 28.895
+ },
+ {
+  "text": "intermédiaire",
+  "start": 28.895,
+  "end": 29.315
+ },
+ {
+  "text": "compliqué.",
+  "start": 29.315,
+  "end": 29.7
+ },
+ {
+  "text": "On",
+  "start": 29.7,
+  "end": 29.82
+ },
+ {
+  "text": "commence",
+  "start": 29.82,
+  "end": 29.99
+ },
+ {
+  "text": "par",
+  "start": 29.99,
+  "end": 30.1
+ },
+ {
+  "text": "Dakar.",
+  "start": 30.1,
+  "end": 30.33
+ },
+ {
+  "text": "Jokko,",
+  "start": 30.78,
+  "end": 31.28
+ },
+ {
+  "text": "en",
+  "start": 31.49,
+  "end": 31.755
+ },
+ {
+  "text": "wolof,",
+  "start": 31.755,
+  "end": 32.14
+ },
+ {
+  "text": "c'est",
+  "start": 32.14,
+  "end": 32.38
+ },
+ {
+  "text": "être",
+  "start": 32.38,
+  "end": 32.58
+ },
+ {
+  "text": "en",
+  "start": 32.58,
+  "end": 32.835
+ },
+ {
+  "text": "lien.",
+  "start": 32.835,
+  "end": 33.03
+ },
+ {
+  "text": "C'est",
+  "start": 33.28,
+  "end": 33.475
+ },
+ {
+  "text": "exactement",
+  "start": 33.475,
+  "end": 33.975
+ },
+ {
+  "text": "ce",
+  "start": 33.975,
+  "end": 34.145
+ },
+ {
+  "text": "qu'on",
+  "start": 34.145,
+  "end": 34.485
+ },
+ {
+  "text": "fait.",
+  "start": 34.485,
+  "end": 34.66
+ },
+ {
+  "text": "Le",
+  "start": 34.96,
+  "end": 35.15
+ },
+ {
+  "text": "bon",
+  "start": 35.15,
+  "end": 35.44
+ },
+ {
+  "text": "prestataire,",
+  "start": 35.44,
+  "end": 36.07
+ },
+ {
+  "text": "au",
+  "start": 36.07,
+  "end": 36.3
+ },
+ {
+  "text": "bon",
+  "start": 36.3,
+  "end": 36.51
+ },
+ {
+  "text": "prix,",
+  "start": 36.51,
+  "end": 36.74
+ },
+ {
+  "text": "près",
+  "start": 36.92,
+  "end": 37.105
+ },
+ {
+  "text": "de",
+  "start": 37.105,
+  "end": 37.205
+ },
+ {
+  "text": "chez",
+  "start": 37.205,
+  "end": 37.345
+ },
+ {
+  "text": "toi.",
+  "start": 37.345,
+  "end": 37.49
+ },
+ {
+  "text": "Besoin",
+  "start": 37.79,
+  "end": 38.04
+ },
+ {
+  "text": "d'un",
+  "start": 38.04,
+  "end": 38.26
+ },
+ {
+  "text": "pro?",
+  "start": 38.26,
+  "end": 38.43
+ },
+ {
+  "text": "Jokko.",
+  "start": 38.79,
+  "end": 39.17
+ }
+]
