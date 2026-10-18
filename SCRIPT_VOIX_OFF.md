@@ -3,7 +3,7 @@
 Même structure que la vidéo de référence (voir ANALYSE.md) :
 **accroche** (le problème, avec un clin d'œil) → **rebondissements** (la solution, rythmée sur la musique) → **chute** (le nom, la promesse, et une boucle vers le début).
 
-Environ 135 mots. À la vitesse normale d'une voix ElevenLabs en français, avec les pauses entre les lignes, cela donne 50 à 55 secondes.
+Environ 115 mots. À la vitesse normale d'une voix ElevenLabs en français, avec les pauses entre les lignes, cela donne 45 à 55 secondes.
 
 ---
 
