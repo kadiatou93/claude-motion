@@ -26,3 +26,11 @@ Images de contrôle avant le rendu final.
 ## Notes
 Calage mot par mot provisoire : calculé à partir des silences de la voix (huggingface.co bloqué, pas de modèle de
 reconnaissance vocale). Les temps sont dans le tableau `W` de index.html et dans assets/words.json.
+
+## Audio
+- Un bruitage par mot qui apparaît : 6 tics et 6 petits souffles synthétisés, jamais le même deux fois de suite
+  (souffle pour les mots qui sortent d'une fente, tic pour les mots lettre par lettre). Liste : assets/audio/bruitages.txt.
+- Coups de basse sur les moments forts : Jokko, 70, 20, Plombier, Électricien, Femme de ménage, vérifiés, FCFA, Dakar, Jokko, Jokko.
+- Bruitages + basses réglés à 7 dB sous la voix (mesuré : voix -28,1 LUFS, bruitages -35,1 LUFS).
+- Musique originale 122 BPM (synthétisée, libre de droits), 4 dB sous la voix hors parole, baisse de 12 dB quand la voix parle.
+- Mix final masterisé à -14 LUFS intégré, pic vrai ≤ -1 dBTP (Instagram). Script : assets/audio/build_audio.py.
